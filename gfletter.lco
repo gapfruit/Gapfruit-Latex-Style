@@ -1,0 +1,112 @@
+% !TEX encoding = UTF-8 Unicode
+% Author: Stefan Thöni
+% Email: stefan.thoeni@gapfruit.com
+%-------------------------------------------------------
+
+\ProvidesFile{gfletter.lco}[2024/10/10 v2.0 (Stefan "Exception" Thöni)]
+
+\RequirePackage{gfbasic}
+\RequirePackage{multirow}
+
+\LoadLetterOption{SN}
+\KOMAoptions{foldmarks=false}
+\KOMAoptions{foldmarks=blmTp}
+
+
+%-------------------------------------------------------
+% New-Var
+\newkomavar{departement}
+\newkomavar{company}
+\newkomavar{fromstreet}
+\newkomavar{fromcity}
+
+\setkomavar{date}{\today}
+
+% kompatibilitaet zu komascript
+\setkomavar{fromaddress}{\usekomavar{fromstreet}\\\usekomavar{fromcity}}
+
+% -----------------------------------
+% Schrift und Absatz
+% -----------------------------------
+\ifxetex
+	\setkomafont{subject}{\bfseries}
+\else
+	% nothing
+\fi
+
+\KOMAoptions{fontsize=11pt}
+
+\DeclareFixedFont{\headtext}{\encodingdefault}{\familydefault}{\seriesdefault}{\shapedefault}{8pt}
+
+% -----------------------------------
+% Sprache
+% -----------------------------------
+\setkomavar{fromurl}{\gfdomain}
+\setkomavar{fromlogo}{\includegraphics[width=5.5cm]{\gflogost}}
+
+\setkomavar{company}{\gfnamelong}
+\setkomavar{fromstreet}{Baarerstrasse 135}
+\setkomavar{fromcity}{6300 Zug}
+
+%-------------------------------------------------------
+% Positionnen
+%-------------------------------------------------------
+\setplength{lochpos}{-2.5cm}
+\setplength{locvpos}{6.3cm}
+
+
+%-------------------------------------------------------
+% Location
+%-------------------------------------------------------
+\setkomavar{location}{}
+
+%-------------------------------------------------------
+% Kopfzeile
+%-------------------------------------------------------
+\RequirePackage{textpos}
+\setkomavar{firsthead}{\headtext
+    \begin{textblock*}{0cm}(0.5cm,0.35cm)
+    \usekomavar{fromlogo}
+    \end{textblock*}
+    
+	\hspace{8cm}\begin{tabular}{p{5.5cm}p{5.5cm}}
+		\usekomavar{company} & \\  
+		\usekomavar{departement} & \\
+		\usekomavar{fromname} & \\ 
+		\usekomavar{fromstreet} & \usekomavar{fromemail} \\
+		\usekomavar{fromcity} & \usekomavar{fromurl} \\
+	\end{tabular}
+}
+
+%-------------------------------------------------------
+% Fusszeile
+%-------------------------------------------------------
+%\firstfoot{%
+%
+%
+%}
+
+%-------------------------------------------------------
+% Sectioning
+%-------------------------------------------------------
+\makeatletter
+\newcommand\section{\@startsection {section}{1}{\z@}%
+                                   {-3.5ex \@plus -1ex \@minus -.2ex}%
+                                   {2.3ex \@plus.2ex}%
+                                   {\normalfont\Large\bfseries}}
+\newcommand\subsection{\@startsection{subsection}{2}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\large\bfseries}}
+\newcommand\thesection{\@arabic\c@section}
+\newcommand\thesubsection{\thesection.\@arabic\c@subsection}
+\makeatother
+
+%-------------------------------------------------------
+% Options
+%-------------------------------------------------------
+\newcommand{\headerwidth}{1cm}
+
+\endinput
+
+

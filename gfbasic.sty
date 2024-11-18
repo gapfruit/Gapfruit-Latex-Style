@@ -1,0 +1,155 @@
+%!TEX encoding = UTF-8 Unicode%-------------------------------------------------------
+% Author: Stefan Th¿ni
+% Email: stefan.thoeni@gapfruit.com
+%-------------------------------------------------------
+
+\ProvidesPackage{gfbasic}[2024/10/10 v2.0 (Stefan "Exception" Thöni)]
+\RequirePackage{calc}
+\RequirePackage{scrbase}
+\RequirePackage{enumitem}
+
+% -----------------------------------
+% Schrift und Absatz
+% -----------------------------------
+
+\RequirePackage[parfill]{parskip}
+\RequirePackage{ifxetex}
+
+\ifxetex
+	\RequirePackage{fontspec}
+	\RequirePackage{xltxtra}
+	\RequirePackage{xunicode}
+	\setromanfont[BoldFont=Montserrat SemiBold]{Montserrat Light}
+	\setsansfont[	BoldFont=Montserrat SemiBold]{Montserrat Light}
+	\newfontfamily{\fontml}{Montserrat Light}
+	\newfontfamily{\fontme}{Montserrat ExtraLight}
+	\newfontfamily{\fontms}{Montserrat SemiBold}
+	\newfontfamily{\fontmb}{Montserrat Bold}
+	\newfontfamily{\fontmr}{Montserrat Regular}
+	\newfontfamily{\fontmar}{Montserrat Alternates Regular}
+	\newfontfamily{\fontmas}{Montserrat Alternates SemiBold}
+	\newfontfamily{\fontmab}{Montserrat Alternates Bold}
+\else
+	\RequirePackage[utf8]{inputenc}
+	\RequirePackage[T1]{fontenc}
+\fi
+
+\renewcommand{\familydefault}{\sfdefault}
+
+% -----------------------------------
+% Farben
+% -----------------------------------
+\RequirePackage{xcolor}
+
+% -----------------------------------
+% Grafiken
+% -----------------------------------
+\RequirePackage{graphicx}
+\RequirePackage{eso-pic}
+
+\newlength{\tlogowidth}
+\newlength{\hlogoheight}
+\newlength{\hlogospace}
+\newlength{\tpagemargin}
+\newlength{\abstractwidth}
+\AtBeginDocument{
+	\setlength{\hlogoheight}{0.7cm}
+	\setlength{\hlogospace}{\hlogoheight/2}
+	\setlength{\tlogowidth}{\headerwidth}
+	\setlength{\tpagemargin}{\textheight/10}
+	\setlength{\abstractwidth}{\linewidth/10*8}
+}
+
+\newcommand{\biglogost}{%
+	\includegraphics[width=\tlogowidth]{\gflogost}
+}
+\newcommand{\smalllogost}{%
+	\includegraphics[height=\hlogoheight]{\gflogost}%
+}
+
+\newcommand{\headerlogo}{%
+	\smalllogost%
+	\vspace{\hlogospace}%
+}
+
+\newcommand{\logonamebox}[1]{%
+	\scalebox{#1}{%
+	\parbox{\headerwidth}{%
+	\biglogost\par
+	{\fontmas\headername}}}
+}
+
+% -----------------------------------
+% Tikz Styles
+% -----------------------------------
+\RequirePackage{tikz}
+
+\tikzset{help lines/.style={color=violet!30, very thin}}
+
+% -----------------------------------
+% Sprache
+% -----------------------------------
+\RequirePackage[english,french,italian,ngerman]{babel}
+
+\providecaptionname{english}{\gflogost}{gapfruitlogo.pdf}
+\providecaptionname{ngerman}{\gflogost}{gapfruitlogo.pdf}
+
+\providecaptionname{english}{\gflogosub}{}
+\providecaptionname{ngerman}{\gflogosub}{}
+
+\providecaptionname{english}{\gfname}{\textbf{Gapfruit}}
+\providecaptionname{ngerman}{\gfname}{\textbf{Gapfruit}}
+
+\providecaptionname{english}{\gfnamelong}{Gapfruit AG}
+\providecaptionname{ngerman}{\gfnamelong}{Gapfruit AG}
+
+\providecaptionname{english}{\gfdomain}{gapfruit.com}
+\providecaptionname{ngerman}{\gfdomain}{gapfruit.com}
+
+% -----------------------------------
+% Section numbering
+% -----------------------------------
+\newcommand{\nosecnum}{\setcounter{secnumdepth}{-1}}
+\newcommand{\stdsecnum}{\setcounter{secnumdepth}{3}}
+\newcommand{\secnum}[1]{\setcounter{secnumdepth}{#1}}
+
+%-------------------------------------------------------
+% Options
+%-------------------------------------------------------
+\widowpenalty10000
+\clubpenalty10000
+
+%-------------------------------------------------------
+% Additional packages
+%-------------------------------------------------------
+\RequirePackage[german=swiss]{csquotes}
+
+%-------------------------------------------------------
+% Additional commands
+%-------------------------------------------------------
+\newcommand{\bis}{{\tiny\raisebox{0.6em}{bis}}}
+
+\newcommand{\draft}[2]{%
+	\usepackage{draftwatermark}
+	\SetWatermarkText{#1}
+	\SetWatermarkLightness{0.8}
+	\SetWatermarkScale{#2}
+}
+\newcommand{\vernehmlassung}{%
+	\draft{Vernehmlassung}{0.5}
+}
+
+\newcommand{\parnum}{\arabic{parcount}}
+\newcounter{parcount}
+\newcommand\p{%
+    \stepcounter{parcount}%
+    \hspace{-0.12cm}\leavevmode\marginpar[\hfill\parnum]{\parnum}%
+}
+
+% -----------------------------------
+% Klassifizierung des Dokuments
+% -----------------------------------
+\newcommand{\theclassified}{}
+\newcommand{\classified}[1]{\renewcommand{\theclassified}{#1}}
+\newcommand{\classcolor}{red}
+

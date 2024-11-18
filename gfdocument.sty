@@ -1,0 +1,106 @@
+% !TEX encoding = UTF-8 Unicode
+% Author: Stefan Thöni
+% Email: stefan.thoeni@gapfruit.com
+%-------------------------------------------------------
+
+\ProvidesPackage{gfdocument}[2024/10/10 v2.0 (Stefan "Exception" Thöni)]
+
+\RequirePackage{gfbasic}
+\RequirePackage{xifthen}
+\RequirePackage{lastpage}
+\RequirePackage[absolute]{textpos}
+\RequirePackage[automark]{scrlayer-scrpage}
+
+% -----------------------------------
+% Schrift und Absatz
+% -----------------------------------
+\setkomafont{pagefoot}{\upshape}
+\setkomafont{pagehead}{\upshape}
+\setkomafont{sectioning}{\bfseries}
+
+\KOMAoptions{fontsize=11pt}
+
+% -----------------------------------
+% Farben für den Gebrauch im Dokument
+% -----------------------------------
+\definecolor{red}{rgb}{1,0,0}
+\definecolor{black}{rgb}{0,0,0}
+
+% -----------------------------------
+% default and update values for title
+% -----------------------------------
+\newcommand{\headername}{\gflogosub}
+\newcommand{\headerwidth}{7.8cm}
+\newcommand{\titlepagespace}{3em}
+
+% -----------------------------------
+% Kopf- und fusszeile
+% -----------------------------------
+\KOMAoptions{headinclude=true}
+\KOMAoptions{footinclude=false}
+\KOMAoptions{headlines=3}
+\KOMAoptions{pagesize}
+\recalctypearea
+
+\clearpairofpagestyles
+\pagestyle{scrheadings}
+
+\ihead{\vspace{-0.15cm}\smalllogost}
+\ohead{\scriptsize\textbf{\small\@title} \\ \@subtitle}
+\ifoot{\footnotesize\@author}
+\cfoot{\footnotesize\@date}
+\renewcommand{\pagemark}{\thepage{} / \pageref{LastPage}}
+\ofoot{\footnotesize\pagemark}
+\chead{%
+\begin{textblock}{16}[0,0](0,0.7)
+    \centering {\Large{\textcolor{\classcolor}{\textbf{\theclassified}}}}
+\end{textblock}
+\begin{textblock}{16}[0,0](0,15.3)
+    \centering {\Large{\textcolor{\classcolor}{\textbf{\theclassified}}}}
+\end{textblock}
+}
+
+\renewenvironment{titlepage}{
+	\thispagestyle{empty}
+	\if@titlepage\vspace*{\tpagemargin}\else\fi
+	\begin{centering}
+
+	\includegraphics[width=12cm]{\gflogost}
+
+	\vspace{2em}
+
+	{\LARGE\@title}
+
+	\vspace{1em}
+
+	\ifthenelse{\equal{\@subtitle}{}}{}{\Large\@subtitle\vspace{1em}}
+  
+	\ifthenelse{\equal{\theclassified}{}}{}{\LARGE{\textcolor{\classcolor}{\textbf{\theclassified}}}\vspace{1em}}
+
+	{\Large\@author}
+
+	\vspace{1em}
+
+	{\Large\@date}
+
+	\end{centering}
+	\vspace{2em}
+}{
+	\newpage
+}
+
+\renewcommand{\maketitle}{
+	\thispagestyle{empty}
+	\logonamebox{1}
+	\begin{flushright}
+	\vspace{\titlepagespace}\par\textbf{\huge\@title}
+	\ifthenelse{\equal{\@subtitle}{}}{}{\\ \vspace{0.1cm} {\Large\@subtitle}}
+	\ifthenelse{\equal{\theclassified}{}}{}{\\ \vspace{0.3cm} {\LARGE{\textcolor{\classcolor}{\textbf{\theclassified}}}}}
+	\par
+	\vspace{\titlepagespace}{\raggedleft\scriptsize\@author\hspace{1em}\@date}
+	\end{flushright}
+	\vspace{\titlepagespace}
+}
+
+\RequirePackage[a4paper,left=2cm,right=2cm,top=4cm]{geometry}
+
